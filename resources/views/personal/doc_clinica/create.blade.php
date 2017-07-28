@@ -70,6 +70,29 @@
 					<input type="tel" name="telefono" class="form-control" value="{{old('telefono')}}" placeholder="Teléfono..." minlength="10" maxlength="10"  pattern="[0-9]{10}" required>
 				</div>
 
+				<div class="form-group">
+					<label>Especialidad</label>
+					<select name="pid_especialidad" id="pid_especialidad" class="form-control selectpicker" data-live-search="true">
+						@foreach($especialidad as $especialidad)
+							<option value="{{$especialidad->id_especialidades}}_{{$especialidad->tipo}}_{{$especialidad->nombre}}">{{$especialidad->tipo}} - {{$especialidad->nombre}}</option>
+						@endforeach
+					</select>
+				</div>
+				<div class="form-group">
+					<button type="button" id="bt_add" class="btn btn-primary">Agregar</button>
+				</div>
+
+				<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+					<thead style="background-color:#014AB6;color:white">
+						<th>Eliminar</th>
+						<th>Tipo</th>
+						<th>Especialidad</th>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+
 
               </div>
           </div>
@@ -95,29 +118,7 @@
 						<input type="text" name="cedula" class="form-control" value="{{old('cedula')}}" minlength="7" maxlength="7"  >
 					</div>
 
-					<div class="form-group">
-						<label>Especialidad</label>
-						<select name="pid_especialidad" id="pid_especialidad" class="form-control selectpicker" data-live-search="true">
-							@foreach($especialidad as $especialidad)
-								<option value="{{$especialidad->id_especialidades}}_{{$especialidad->tipo}}_{{$especialidad->nombre}}">{{$especialidad->tipo}} - {{$especialidad->nombre}}</option>
-							@endforeach
-						</select>
-					</div>
-					<div class="form-group">
-						<button type="button" id="bt_add" class="btn btn-primary">Agregar</button>
-					</div>
-
-					<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-						<thead style="background-color:#014AB6;color:white">
-							<th>Eliminar</th>
-							<th>Tipo</th>
-							<th>Especialidad</th>
-						</thead>
-						<tbody>
-						
-						</tbody>
-					</table>
-
+					
 					
 					<div class="box-header with-border" align="center">
 						<h3 class="box-title" >Información para inicio de sesiòn</h3>
@@ -175,9 +176,8 @@
 				var fila = "<tr class='selected' id='fila"+cont+"'>"+
 								"<td><button type='button' class='btn btn-warning' onclick='eliminar("+cont+")'>X</button></td>"+
 								"<td>"+
-									"<input type='hidden' name='id_especialidad[]'  value='"+id_especialidad+"' >"+
-									"<input type='text' name='tipo[]'  	   			value='"+tipo+"' disabled> 				</td>"+
-								"<td><input type='text' name='especialidad[]'    	value='"+especialidad+"' disabled> 		</td>"+
+									"<input type='hidden' name='id_especialidad[]'  value='"+id_especialidad+"' >"+tipo+
+								"<td>"+especialidad+"</td>"+
 							"</tr>";
 				cont = cont+1;
 				$("#detalles").append(fila);	

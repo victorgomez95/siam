@@ -57,7 +57,16 @@ class AsistenteController extends Controller
             }
         }
         
-        return view("personal.asistente.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        if($tipo == "true" && (count($doctor_clinica) > 0) ){
+            return view("personal.asistente.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        }
+        if($tipo == "false"){
+            return view("personal.asistente.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        }
+        if($tipo == "true" && (count($doctor_clinica) <= 0) ){
+            return view("otros.no_doc");
+        }
+
     }
 
     //method -> POST

@@ -55,7 +55,16 @@ class EnfermeraController extends Controller
             }
         }
         
-        return view("personal.enfermera.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        if($tipo == "true" && (count($doctor_clinica) > 0) ){
+            return view("personal.enfermera.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        }
+        if($tipo == "false"){
+            return view("personal.enfermera.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
+        }
+        if($tipo == "true" && (count($doctor_clinica) <= 0) ){
+            return view("otros.no_doc");
+        }
+        
     }
 
     //method -> POST
