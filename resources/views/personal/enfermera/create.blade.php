@@ -83,6 +83,76 @@
 					<input type="file" name="fotohash" class="form-control">
 				</div>
 
+				@if($tipo=="false")
+					<div class="form-group">
+						<label for="telefono">Atiende al doctor:  <font style="color:red">*</font></label>
+						<input type="hidden" name="id_doctor[]" class="form-control" value="{{$doctor_particular->id_doctor}}"> 
+						<input type="text" class="form-control" value="{{$doctor_particular->nombre}} {{$doctor_particular->apellidos}}"  disabled>
+					</div>
+				@else
+					<div class="form-group">
+						<label>Atender al doctor: </label>
+						<select name="pdoctor_clinica" id="pdoctor_clinica" class="form-control selectpicker" data-live-search="true">
+							<@foreach($doctor_clinica as $doctor_clinica)
+								<option value="{{$doctor_clinica->id_doctor}}_{{$doctor_clinica->nombre}}_{{$doctor_clinica->apellidos}}"> {{$doctor_clinica->nombre}} {{$doctor_clinica->apellidos}}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<div class="form-group">
+						<button type="button" id="bt_add" class="btn btn-primary">Agregar</button>
+					</div>
+
+					<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+						<thead style="background-color:#014AB6;color:white">
+							<th>Eliminar</th>
+							<th>Tipo</th>
+							<th>Especialidad</th>
+						</thead>
+						<tbody>
+						
+						</tbody>
+					</table>
+
+					@push('scripts')
+						<script>
+							$(document).ready(function(){
+								$('#bt_add').click(function(){
+									agregar();
+								});
+							});
+
+							var cont=0;
+							
+							function agregar(){
+								datosDoctor = document.getElementById('pdoctor_clinica').value.split('_');
+								var id_doctor	=  datosDoctor[0];
+								var nombre 		=  datosDoctor[1];
+								var apellidos	=  datosDoctor[2];
+
+								console.log("id_doctor -> "+id_doctor);
+								console.log("nombre -> "+nombre);
+								console.log("apellidos -> "+apellidos);
+					
+								var fila = "<tr class='selected' id='fila"+cont+"'>"+
+												"<td><button type='button' class='btn btn-warning' onclick='eliminar("+cont+")'>X</button></td>"+
+												"<td>"+
+													"<input type='hidden' name='id_doctor[]'  		value='"+id_doctor+"' >"+nombre+" </td>"+
+												"<td>"+apellidos+"</td>"+
+											"</tr>";
+								cont = cont+1;
+								$("#detalles").append(fila);	
+							}
+
+							function eliminar(index){
+								$("#fila" + index).remove();
+							}
+
+						</script>
+					@endpush
+
+				@endif
+
               </div>
           </div>
         </div>

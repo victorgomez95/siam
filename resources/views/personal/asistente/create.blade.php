@@ -3,11 +3,11 @@
 
 	<section class="content-header">
       <h1>
-        Nuevo Enfermero (a)
+        Nuevo asistente
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-		<li class="active">Enfermero (a)</li>
+		<li class="active">Asistente</li>
 		<li class="active">Agregar</li>
       </ol>
 	  <br><br>
@@ -111,41 +111,41 @@
 					</table>
 
 					@push('scripts')
-					<script>
-						$(document).ready(function(){
-							$('#bt_add').click(function(){
-								agregar();
+						<script>
+							$(document).ready(function(){
+								$('#bt_add').click(function(){
+									agregar();
+								});
 							});
-						});
 
-						var cont=0;
-						
-						function agregar(){
-							datosDoctor = document.getElementById('pdoctor_clinica').value.split('_');
-							var id_doctor	=  datosDoctor[0];
-							var nombre 		=  datosDoctor[1];
-							var apellidos	=  datosDoctor[2];
+							var cont=0;
+							
+							function agregar(){
+								datosDoctor = document.getElementById('pdoctor_clinica').value.split('_');
+								var id_doctor	=  datosDoctor[0];
+								var nombre 		=  datosDoctor[1];
+								var apellidos	=  datosDoctor[2];
 
-							console.log("id_doctor -> "+id_doctor);
-							console.log("nombre -> "+nombre);
-							console.log("apellidos -> "+apellidos);
-				
-							var fila = "<tr class='selected' id='fila"+cont+"'>"+
-											"<td><button type='button' class='btn btn-warning' onclick='eliminar("+cont+")'>X</button></td>"+
-											"<td>"+
-												"<input type='hidden' name='id_doctor[]'  		value='"+id_doctor+"' >"+nombre+" </td>"+
-											"<td>"+apellidos+"</td>"+
-										"</tr>";
-							cont = cont+1;
-							$("#detalles").append(fila);	
-						}
+								console.log("id_doctor -> "+id_doctor);
+								console.log("nombre -> "+nombre);
+								console.log("apellidos -> "+apellidos);
+					
+								var fila = "<tr class='selected' id='fila"+cont+"'>"+
+												"<td><button type='button' class='btn btn-warning' onclick='eliminar("+cont+")'>X</button></td>"+
+												"<td>"+
+													"<input type='hidden' name='id_doctor[]'  		value='"+id_doctor+"' >"+nombre+" </td>"+
+												"<td>"+apellidos+"</td>"+
+											"</tr>";
+								cont = cont+1;
+								$("#detalles").append(fila);	
+							}
 
-						function eliminar(index){
-							$("#fila" + index).remove();
-						}
+							function eliminar(index){
+								$("#fila" + index).remove();
+							}
 
-					</script>
-				@endpush
+						</script>
+					@endpush
 
 				@endif
 				
@@ -182,7 +182,7 @@
 				<div class="box-header with-border">
 					<h3 class="box-title">Información para inicio de sesiòn</h3>
 				</div>
-				<div class="box-body">
+
 					<div class="form-group">
 						<label for="email">Email <font style="color:red">*</font></label>
 						<input type="email" name="email" class="form-control" value="{{old('email')}}" placeholder="Email..." required>
@@ -203,7 +203,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -213,7 +213,27 @@
 	</div>
 
 
-	
+	<div class="container">
+		<div class="row">
+			<div class='col-sm-6'>
+				<div class="form-group">
+					<div class='input-group date' id='datetimepicker3'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				$(function () {
+					$('#datetimepicker3').datetimepicker({
+						format: 'LT'
+					});
+				});
+			</script>
+		</div>
+	</div>
 	
 
 @endsection

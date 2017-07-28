@@ -159,6 +159,16 @@ class AsistenteController extends Controller
         $asistente=Asistente::findOrFail($id);
         $asistente->estado='Inactivo';
         $asistente->update();
+
+        $match_asistente=DB::table('match_asistente')->where('id_asistente','=',$asistente->id_asistente)->get();
+        $cont = 0;
+        while($cont < count($match_asistente)){
+            $update_asistente=MatchAsistente::findOrFail($match_asistente[$cont]->id_match_asistente);
+            $update_asistente->estado = "Inactivo";
+            $update_asistente->update();
+            $cont=$cont+1;
+         }
+
         return Redirect::to('menu/asistente');
     }
 

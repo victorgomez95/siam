@@ -3,9 +3,11 @@
 namespace SIAM\Http\Controllers;
 use Illuminate\Http\Request;
 use SIAM\Http\Requests;
-use SIAM\Enfermera;
 use SIAM\Http\Requests\Asis_Enf_Request;
+use SIAM\Enfermera;
+use SIAM\DocParticular;
 use SIAM\User;
+use SIAM\MatchEnfermera;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use DB;
@@ -36,11 +38,30 @@ class EnfermeraController extends Controller
     
     //create new catagoria -> page
     public function create(){
-        return view("personal.enfermera.create");
+        $user = Auth::user();
+        $tipo = "false";
+        $doctor_clinica = "";
+        $doctor_particular = "";
+        if($user->tipo=="clinica"){
+            $doctor_clinica=DB::table('doc_clinica')
+            ->where('estado','=','Activo')
+            ->where('id_clinica','=',$user->id_persona)
+            ->get();
+            $tipo = "true";
+        }else{
+            if($user->tipo=="doc_particular"){
+                $doctor_particular = DocParticular::findOrFail($user->id_persona);
+                $tipo = "false";
+            }
+        }
+        
+        return view("personal.enfermera.create",["doctor_clinica"=>$doctor_clinica,"doctor_particular"=>$doctor_particular,"tipo"=>$tipo]);
     }
 
     //method -> POST
     public function store (Asis_Enf_Request $request){
+        $user = Auth::user();
+
         $enfermera = new Enfermera;
         $enfermera->nombre       = $request->get('nombre');
         $enfermera->apellidos    = $request->get('apellidos');
@@ -60,6 +81,18 @@ class EnfermeraController extends Controller
             $enfermera->fotohash = "N/A";
         }
         $enfermera->save();
+
+        $cont = 0;
+        $id_doctor = $request->get('id_doctor');
+        while($cont < count($id_doctor)){
+             $match                     = new MatchEnfermera();
+             $match->id_enfermera       = $enfermera->id_enfermera; 
+             $match->id_doctor          = $id_doctor[$cont]; 
+             $match->tabla              = $user->tipo;
+             $match->estado             = "Activo";
+             $match->save();
+             $cont=$cont+1;
+         }
 
         User::create([
             'id_persona'    => $enfermera->id_enfermera,
@@ -124,6 +157,17 @@ class EnfermeraController extends Controller
         $enfermera=Enfermera::findOrFail($id);
         $enfermera->estado='Inactivo';
         $enfermera->update();
+
+        
+        $match_enfermera=DB::table('match_enfermera')->where('id_enfermera','=',$enfermera->id_enfermera)->get();
+        $cont = 0;
+        while($cont < count($match_enfermera)){
+            $update_enfermera=MatchEnfermera::findOrFail($match_enfermera[$cont]->id_match_enfermera);
+            $update_enfermera->estado = "Inactivo";
+            $update_enfermera->update();
+            $cont=$cont+1;
+         }
+
         return Redirect::to('menu/enfermera');
     }
 

@@ -101,11 +101,11 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo" style="background:#001453">
+        <a href="#" class="logo" style="background:#001453">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>SIAM</b></span>
+          <span class="logo-mini"><b><img src="{{asset('assets/img/MONT&GO_icon.png')}}"  alt="User Image" style="width:50%"></b></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>SIAM</b></span>
+          <span class="logo-lg"><b><img src="{{asset('assets/img/MONT&GO_icon.png')}}"  alt="User Image" style="width:10%"> SIAM</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -165,14 +165,10 @@
           
 
           <div class="user-panel">
-            <div class="pull-left image">
-              
-              <img src="{{asset('assets/img/montandgo.png')}}" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-              <p>{!!Auth::user()->name!!} <br> {!!Auth::user()->apellidos!!} </p>
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
+            
+            <img src="{{asset('assets/img/MONT&GO.png')}}"  alt="User Image" style="width:100%">
+            <br>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
           <!-- search form -->
           <form action="#" method="get" class="sidebar-form">
