@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use SIAM\Http\Controllers\Controller;
 use SIAM\User;
 use SIAM\Http\Requests\registerClinicaRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use SIAM\Clinica;
 use Session;
 use Redirect;
@@ -22,8 +24,15 @@ class ClinicaRegisterController extends Controller
         $Clinica->apellidos_encargado   = $request->get('apellidos_encargado');
         $Clinica->direccion             = $request->get('ubicacion');
         $Clinica->telefono              = $request->get('telefono');
-        $Clinica->logotipo              = "N/A";
-        $Clinica->sexo_encargado        = "N/A";
+        $Clinica->sexo_encargado        = $request->get('sexo');
+        if(Input::hasFile('logotipo')){
+            $file = Input::file('logotipo');
+            $file->move(public_path().'/assets/img_comp/',$file->getClientOriginalName());
+            $Clinica->logotipo = $file->getClientOriginalName();
+        }else{
+            $Clinica->logotipo              = "N/A";
+        }
+
         $Clinica->save();
         
         /*$User = new User;

@@ -24,14 +24,35 @@ class EnfermeraController extends Controller
     }
     public function index(Request $request)
     {   //index -> primer metodo a llamar
+        $user = Auth::user();
         if ($request)
         {
-            $query=trim($request->get('searchText'));
+            /*$query=trim($request->get('searchText'));
             $enfermera = DB::table('enfermera')
                 ->where('nombre','LIKE','%'.$query.'%')
                 ->where('estado','=','Activo')
                 ->orderBy('id_enfermera','desc')
-                ->paginate(20);
+                ->paginate(20);*/
+
+            $query=trim($request->get('searchText'));
+            $enfermera=DB::table('enfermera')
+            ->join('match_enfermera','match_enfermera.id_enfermera','=','enfermera.id_enfermera')
+            ->join('doc_clinica'    ,'match_enfermera.id_doctor'   ,'=','doc_clinica.id_doctor')
+            ->select(DB::raw('DISTINCT(enfermera.id_enfermera)'),
+                'enfermera.nombre',
+                'enfermera.apellidos',
+                'enfermera.telefono',
+                'enfermera.direccion',
+                'enfermera.hora_entrada',
+                'enfermera.hora_salida',
+                'enfermera.fotohash',
+                'enfermera.sexo')
+            ->where('enfermera.estado','=','Activo')
+            ->where('enfermera.nombre','LIKE','%'.$query.'%')
+            ->where('doc_clinica.id_clinica','=',$user->id_persona)
+            ->orderBy('enfermera.id_enfermera','desc')
+            ->paginate(20);
+
             return view('personal.enfermera.index',["enfermera"=>$enfermera,"searchText"=>$query]);
         }
     }

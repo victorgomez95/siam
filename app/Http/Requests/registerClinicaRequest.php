@@ -28,11 +28,13 @@ class registerClinicaRequest extends FormRequest
             'anio_fundacion'        => 'required',
             'ubicacion'             => 'required',
             'rfc'                   => 'required',
+            'sexo'                   => 'required',
             'nombre_encargado'      => 'required|max:45',
             'apellidos_encargado'   => 'required|max:45',
             'telefono'              => 'required|max:10',
             'email'                 => 'required|email|max:255|unique:users',
             'password'              => 'required|min:6|confirmed',
+            'fotohash'              => 'mimes:jpeg,jpg,bmp,png',
         ];
     }
 }

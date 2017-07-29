@@ -14,9 +14,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 
-@include('alerts.errors')
-@include('alerts.request')
-
 <body>
 
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation" style="background:#001453;border-bottom:none">
@@ -101,10 +98,10 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="1">
-                            {!!Form::open(array('url'=>'register/clinica','method'=>'POST','autocomplete'=>'off'))!!}
+                            {!!Form::open(array('url'=>'register/clinica','method'=>'POST','autocomplete'=>'off','files'=>'true'))!!}
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="cols-sm-2 control-label">Nombre</label>
+                                <label for="name" class="cols-sm-2 control-label">Nombre </label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -119,7 +116,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('anio_fundacion') ? ' has-error' : '' }}">
-                                <label for="apellidos" class="cols-sm-2 control-label">Año de fundación</label>
+                                <label for="apellidos" class="cols-sm-2 control-label">Año de fundación</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -134,7 +131,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('ubicacion') ? ' has-error' : '' }}">
-                                <label for="apellidos" class="cols-sm-2 control-label">Dirección</label>
+                                <label for="apellidos" class="cols-sm-2 control-label">Dirección</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -149,7 +146,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
-                                <label for="telefono" class="cols-sm-2 control-label">Teléfono</label>
+                                <label for="telefono" class="cols-sm-2 control-label">Teléfono</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -164,11 +161,11 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('rfc') ? ' has-error' : '' }}">
-                                <label for="apellidos" class="cols-sm-2 control-label">RFC</label>
+                                <label for="apellidos" class="cols-sm-2 control-label">RFC</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                        <input type="text" class="form-control" name="rfc" id="rfc" value="{{ old('rfc') }}" placeholder="Persona moral" minlength="2" required/>
+                                        <input type="text" class="form-control" name="rfc" id="rfc" value="{{ old('rfc') }}" placeholder="Persona moral"  maxlength="7" required/>
                                     </div>
                                     @if ($errors->has('rfc'))
                                         <span class="help-block">
@@ -178,8 +175,23 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('logotipo') ? ' has-error' : '' }}">
+                                <label for="apellidos" class="cols-sm-2 control-label">Logotipo</label>
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-picture-o" aria-hidden="true"></i></span>
+                                        <input type="file" class="form-control" name="logotipo" id="logotipo" />
+                                    </div>
+                                    @if ($errors->has('logotipo'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('logotipo') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('nombre_encargado') ? ' has-error' : '' }}">
-                                <label for="nombre_encargado" class="cols-sm-2 control-label">Nombre del encargado</label>
+                                <label for="nombre_encargado" class="cols-sm-2 control-label">Nombre del encargado</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -194,7 +206,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('apellidos_encargado') ? ' has-error' : '' }}">
-                                <label for="apellidos_encargado" class="cols-sm-2 control-label">Apellidos del encargado</label>
+                                <label for="apellidos_encargado" class="cols-sm-2 control-label">Apellidos del encargado</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -209,25 +221,19 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('sexo') ? ' has-error' : '' }}">
-                                <label for="sexo" class="cols-sm-2 control-label">Sexo del encargado</label>
+                                <label for="sexo" class="cols-sm-2 control-label">Sexo del encargado</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="optradio" required>Hombre
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="optradio">Mujer
-                                            </label>
+                                        <div data-toggle="buttons">
+                                            <label class="btn btn-default btn-circle btn-lg"><input type="radio" name="sexo" value="Hombre"><i class="fa fa-male" checked></i></label>
+                                            <label class="btn btn-default btn-circle btn-lg">       <input type="radio" name="sexo" value="Mujer"><i class="fa fa-female"></i></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="cols-sm-2 control-label">Email</label>
+                                <label for="email" class="cols-sm-2 control-label">Email</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i></span>
@@ -242,7 +248,7 @@
                             </div>
                             
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="cols-sm-2 control-label">contraseña</label>
+                                <label for="password" class="cols-sm-2 control-label">contraseña</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
@@ -257,7 +263,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                <label for="password_confirmation" class="cols-sm-2 control-label">Confirma contraseña</label>
+                                <label for="password_confirmation" class="cols-sm-2 control-label">Confirma contraseña</label><font style="color:red">*</font></label>
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>

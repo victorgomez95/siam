@@ -28,12 +28,32 @@ class AsistenteController extends Controller
         $user = Auth::user();
         if ($request)
         {   
-            $query=trim($request->get('searchText'));
+            /*$query=trim($request->get('searchText'));
             $asistente = DB::table('asistente')
                 ->where('nombre','LIKE','%'.$query.'%')
                 ->where('estado','=','Activo')
                 ->orderBy('id_asistente','desc')
-                ->paginate(20);
+                ->paginate(20);*/
+
+            $query=trim($request->get('searchText'));
+            $asistente=DB::table('asistente')
+            ->join('match_asistente','match_asistente.id_asistente','=','asistente.id_asistente')
+            ->join('doc_clinica'    ,'match_asistente.id_doctor'   ,'=','doc_clinica.id_doctor')
+            ->select(DB::raw('DISTINCT(asistente.id_asistente)'),
+                'asistente.nombre',
+                'asistente.apellidos',
+                'asistente.telefono',
+                'asistente.direccion',
+                'asistente.hora_entrada',
+                'asistente.hora_salida',
+                'asistente.fotohash',
+                'asistente.sexo')
+            ->where('asistente.estado','=','Activo')
+            ->where('asistente.nombre','LIKE','%'.$query.'%')
+            ->where('doc_clinica.id_clinica','=',"17")
+            ->orderBy('asistente.id_asistente','desc')
+            ->paginate(20);
+            
             return view('personal.asistente.index',["asistente"=>$asistente,"searchText"=>$query]);
         }
     }
